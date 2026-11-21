@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Quiet Gallery — a stealth game</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #0b0d12;
+    color: #e8e4d8;
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  h1 {
+    font-size: 20px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #c9a227;
+    margin: 14px 0 10px;
+  }
+  canvas {
+    display: block;
+    width: min(960px, 96vw);
+    height: auto;
+    border: 1px solid #3a3f4d;
+    border-radius: 6px;
+    background: #141824;
+    cursor: crosshair;
+    image-rendering: auto;
+  }
+  .controls {
+    margin: 12px 0 18px;
+    font-size: 13px;
+    color: #9fb2cc;
+    text-align: center;
+    line-height: 1.7;
+  }
+  .controls b { color: #e8e4d8; }
+</style>
+</head>
+<body>
+  <h1>The Quiet Gallery</h1>
+  <canvas id="game" width="960" height="644"></canvas>
+  <div class="controls">
+    <b>WASD / Arrows</b> move &nbsp;·&nbsp; <b>Shift</b> run (loud!) &nbsp;·&nbsp; <b>C</b> sneak &nbsp;·&nbsp; <b>Click</b> toss a coin to distract a guard<br>
+    <b>Enter</b> start &nbsp;·&nbsp; <b>R</b> restart level &nbsp;·&nbsp; <b>P</b> pause &nbsp;·&nbsp; <b>M</b> mute &nbsp;·&nbsp; Collect every relic, then reach the green exit — unseen.
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
