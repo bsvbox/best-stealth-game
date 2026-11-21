@@ -9,7 +9,7 @@
 //
 //   mkdir -p out && MAKEFUN_OUTPUT_DIR=out node main.ts
 
-import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
+import { cpSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildDossier } from './vendor/makefun-game.ts';
@@ -22,6 +22,23 @@ cpSync(join(here, 'game'), join(out, 'game'), { recursive: true });
 mkdirSync(join(out, 'screenshots'), { recursive: true });
 if (existsSync(join(here, 'screenshots'))) {
   cpSync(join(here, 'screenshots'), join(out, 'screenshots'), { recursive: true });
+}
+
+// Fail loudly instead of shipping a dossier the screenshot gate would refuse:
+// the entry needs its game files and at least one real screenshot.
+const gameOut = join(out, 'game');
+if (!existsSync(join(gameOut, 'index.html'))) {
+  throw new Error('game/index.html did not copy to the output directory');
+}
+const shotDir = join(out, 'screenshots');
+const shots = readdirSync(shotDir).filter((f) => /\.(jpe?g|png|webp)$/i.test(f));
+if (shots.length === 0) {
+  throw new Error('no screenshots copied to the output directory');
+}
+for (const shot of shots) {
+  if (statSync(join(shotDir, shot)).size === 0) {
+    throw new Error(`screenshot ${shot} is empty`);
+  }
 }
 
 // The gate's own caps, as the kit documents them: the text cap shapes the
